@@ -1,0 +1,34 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %} <!-- 加载django-crispy-forms库中的标签 -->
+{% block content %}
+    <div class="content-section">
+        <!-- method="POST" 提交这个表单的行为将改变服务器端的数据 -->
+        <form method="POST">
+            <!--
+                csrf_token（跨站请求伪造令牌）是一种重要的安全机制，用于防止恶意网站对其他网站的未授权操作
+                在任何使用POST表单的模板中，如果表单是针对内部URL的，请在<form>元素中使用csrf_token标签
+            -->
+            {% csrf_token %}
+            <!--
+                fieldset: 对表单进行分组
+                legend: 说明每组的内容描述
+            -->
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">用户登录</legend>
+                <!-- |crispy将form对象渲染为一个美观的表单，其中包含各种样式和布局 -->
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">登录</button>
+                 <small class="text-muted ml-2">
+                    <a href="{% url 'password_reset' %}">忘记密码?</a>
+                </small>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                没有账户？<a class="ml-2" href="{% url 'register' %}">立即注册</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}
